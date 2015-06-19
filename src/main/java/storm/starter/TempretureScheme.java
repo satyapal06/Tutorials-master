@@ -16,8 +16,6 @@ public class TempretureScheme implements Scheme {
 	public static final String FIELD_EVENT_TIME = "eventTime";
 	public static final String FIELD_EVENT_TYPE = "eventType";
 
-	public static final String FIELD_INCIDENT_CNT = "incidentCnt";
-
 	private static final long serialVersionUID = -2990121166902741545L;
 
 	private static final Logger LOG = Logger.getLogger(TempretureScheme.class);
@@ -41,7 +39,7 @@ public class TempretureScheme implements Scheme {
 
 	@Override
 	public Fields getOutputFields() {
-		return new Fields(FIELD_TEMPERATURE_ID, FIELD_EVENT_TIME, FIELD_EVENT_TYPE);
+		return new Fields(FIELD_EVENT_TIME, FIELD_TEMPERATURE_ID, FIELD_EVENT_TYPE);
 	}
 
 	private String cleanup(String str) {

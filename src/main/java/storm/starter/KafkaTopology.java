@@ -37,7 +37,7 @@ public class KafkaTopology extends BaseTopology {
 		builder.setSpout(KAFKA_SPOUT_ID, kafkaSpout);
 	}
 	
-	public void configureHBaseBolt(TopologyBuilder builder) {
+	public void configureRedisBolt(TopologyBuilder builder) {
 		final String redisHost = "localhost";
 		final int redisPort = 6379;
         TemperatureRedisBolt redisBolt = new TemperatureRedisBolt(redisHost, redisPort);
@@ -52,12 +52,13 @@ public class KafkaTopology extends BaseTopology {
 	private void buildAndSubmit() throws Exception {
 		TopologyBuilder builder = new TopologyBuilder();
 		configureKafkaSpout(builder);
+		configureRedisBolt(builder);
 		configureLogTruckEventBolt(builder);
 
 		Config conf = new Config();
 		conf.setDebug(true);
 
-		StormSubmitter.submitTopology("truck-event-processor", conf, builder.createTopology());
+		StormSubmitter.submitTopology("temperature-event-processor", conf, builder.createTopology());
 	}
 
 	public static void main(String[] str) throws Exception {

@@ -33,7 +33,7 @@ public class KafkaTopology extends BaseTopology {
 
 	public void configureKafkaSpout(TopologyBuilder builder) {
 		KafkaSpout kafkaSpout = new KafkaSpout(constructKafkaSpoutConf());
-		//int spoutCount = Integer.valueOf(topologyConfig.getProperty("spout.thread.count"));
+		// int spoutCount = Integer.valueOf(topologyConfig.getProperty("spout.thread.count"));
 		builder.setSpout(KAFKA_SPOUT_ID, kafkaSpout);
 	}
 	
@@ -44,7 +44,7 @@ public class KafkaTopology extends BaseTopology {
         builder.setBolt(KAFKA_REDIS_ID, redisBolt, 2).shuffleGrouping(KAFKA_SPOUT_ID);
     }
 
-	public void configureLogTruckEventBolt(TopologyBuilder builder) {
+	public void configureLogTemperatureEventBolt(TopologyBuilder builder) {
 		KafkaBolt kafkaBolt = new KafkaBolt();
 		builder.setBolt(LOG_TRUCK_BOLT_ID, kafkaBolt).globalGrouping(KAFKA_SPOUT_ID);
 	}
@@ -53,7 +53,7 @@ public class KafkaTopology extends BaseTopology {
 		TopologyBuilder builder = new TopologyBuilder();
 		configureKafkaSpout(builder);
 		configureRedisBolt(builder);
-		configureLogTruckEventBolt(builder);
+		configureLogTemperatureEventBolt(builder);
 
 		Config conf = new Config();
 		conf.setDebug(true);

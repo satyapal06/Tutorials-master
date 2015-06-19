@@ -34,7 +34,7 @@ public class TemperatureRedisBolt extends BaseRichBolt {
 	}
 
 	public void loadData(Tuple tuple) {
-		String eventTime = tuple.getValueByField(TempretureScheme.FIELD_EVENT_TIME).toString();
+		Object eventTime = tuple.getValueByField(TempretureScheme.FIELD_EVENT_TIME);
 		String temperatureId = tuple.getStringByField(TempretureScheme.FIELD_TEMPERATURE_ID);
 		String eventType = tuple.getStringByField(TempretureScheme.FIELD_EVENT_TYPE);
 		

@@ -16,6 +16,7 @@
         <log4j.version>1.2.17</log4j.version>
         <storm.hdfs.version>0.9.1.2.1.2.0-402</storm.hdfs.version>
         <hive.version>0.13.0.2.1.1.0-385</hive.version>
+        <jedis.version>2.7.0</jedis.version>
     </properties>
   
     <repositories>
@@ -170,6 +171,17 @@
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
             <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
         </dependency>
     </dependencies>
 </project>

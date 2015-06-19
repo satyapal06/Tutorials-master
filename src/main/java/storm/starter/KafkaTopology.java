@@ -10,21 +10,20 @@ import backtype.storm.StormSubmitter;
 import backtype.storm.spout.SchemeAsMultiScheme;
 import backtype.storm.topology.TopologyBuilder;
 
-import com.hortonworks.tutorials.tutorial2.BaseTruckEventTopology;
+public class KafkaTopology extends BaseTopology {
+	private static final String KAFKA_SPOUT_ID = "kafkaTemteratureSpout";
+	private static final String KAFKA_REDIS_ID = "kafkaTemteratureRedisBolt";
+	private static final String LOG_TRUCK_BOLT_ID = "logTemperatureEventBolt";
 
-public class KafkaTopology extends BaseTruckEventTopology {
-	private static final String KAFKA_SPOUT_ID = "kafkaSpout";
-	private static final String LOG_TRUCK_BOLT_ID = "logTruckEventBolt";
-
-	public KafkaTopology(String configFileLocation) throws Exception {
-		super(configFileLocation);
+	public KafkaTopology() throws Exception {
+		super();
 	}
 
 	private SpoutConfig constructKafkaSpoutConf() {
 		BrokerHosts hosts = new ZkHosts(topologyConfig.getProperty("kafka.zookeeper.host.port"));
 		String topic = topologyConfig.getProperty("kafka.topic");
 		String zkRoot = topologyConfig.getProperty("kafka.zkRoot");
-		String consumerGroupId = "StormSpout";
+		String consumerGroupId = topologyConfig.getProperty("kafka.groupid");
 
 		SpoutConfig spoutConfig = new SpoutConfig(hosts, topic, zkRoot, consumerGroupId);
 		spoutConfig.scheme = new SchemeAsMultiScheme(new TempretureScheme());
@@ -37,6 +36,13 @@ public class KafkaTopology extends BaseTruckEventTopology {
 		int spoutCount = Integer.valueOf(topologyConfig.getProperty("spout.thread.count"));
 		builder.setSpout(KAFKA_SPOUT_ID, kafkaSpout);
 	}
+	
+	public void configureHBaseBolt(TopologyBuilder builder) {
+		final String redisHost = "localhost";
+		final int redisPort = 6379;
+        TemperatureRedisBolt redisBolt = new TemperatureRedisBolt(redisHost, redisPort);
+        builder.setBolt(KAFKA_REDIS_ID, redisBolt, 2).shuffleGrouping(KAFKA_SPOUT_ID);
+    }
 
 	public void configureLogTruckEventBolt(TopologyBuilder builder) {
 		KafkaBolt kafkaBolt = new KafkaBolt();
@@ -55,8 +61,7 @@ public class KafkaTopology extends BaseTruckEventTopology {
 	}
 
 	public static void main(String[] str) throws Exception {
-		String configFileLocation = "truck_event_topology.properties";
-		KafkaTopology truckTopology = new KafkaTopology(configFileLocation);
+		KafkaTopology truckTopology = new KafkaTopology();
 		truckTopology.buildAndSubmit();
 	}
 }

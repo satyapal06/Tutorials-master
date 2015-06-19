@@ -1,26 +1,16 @@
 package storm.starter;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-
-import com.hortonworks.tutorials.tutorial2.BaseTruckEventTopology;
-
 public abstract class BaseTopology {
-	private static final Logger LOG = Logger.getLogger(BaseTruckEventTopology.class);
 	protected Properties topologyConfig;
 
-	public BaseTopology(String configFileLocation) throws Exception {
-		try {
-			topologyConfig.load(ClassLoader.getSystemResourceAsStream(configFileLocation));
-		} catch (FileNotFoundException e) {
-			LOG.error("Encountered error while reading configuration properties: " + e.getMessage());
-			throw e;
-		} catch (IOException e) {
-			LOG.error("Encountered error while reading configuration properties: " + e.getMessage());
-			throw e;
-		}
+	public BaseTopology() throws Exception {
+		topologyConfig = new Properties();
+		topologyConfig.put("kafka.zookeeper.host.port", "23.253.230.238");
+		topologyConfig.put("kafka.topic", "temperatureevent");
+		topologyConfig.put("kafka.zkRoot", "/temterature_event_sprout");
+		topologyConfig.put("kafka.groupid", "test-consumer-group");
+		topologyConfig.put("spout.thread.count", 1);
 	}
 }

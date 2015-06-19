@@ -20,11 +20,8 @@ public class KafkaBolt extends BaseRichBolt {
 	public void prepare(Map map, TopologyContext tc, OutputCollector oc) { }
 
 	public void execute(Tuple tuple) {
-		LOG.info(tuple.getStringByField(TempretureScheme.FIELD_DRIVER_ID)  + "," + 
-          tuple.getStringByField(TempretureScheme.FIELD_TRUCK_ID)    + "," +
-          tuple.getValueByField(TempretureScheme.FIELD_EVENT_TIME)  + "," +
+		LOG.info(tuple.getValueByField(TempretureScheme.FIELD_EVENT_TIME)  + "," +
           tuple.getStringByField(TempretureScheme.FIELD_EVENT_TYPE)  + "," +
-          tuple.getStringByField(TempretureScheme.FIELD_LATITUDE)    + "," +
-          tuple.getStringByField(TempretureScheme.FIELD_LONGITUDE));
+          tuple.getStringByField(TempretureScheme.FIELD_TEMPERATURE_ID));
 	}
 }

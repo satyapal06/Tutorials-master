@@ -12,12 +12,9 @@ import backtype.storm.tuple.Values;
 
 public class TempretureScheme implements Scheme {
 
-	public static final String FIELD_DRIVER_ID = "driverId";
-	public static final String FIELD_TRUCK_ID = "truckId";
+	public static final String FIELD_TEMPERATURE_ID = "temperatureId";
 	public static final String FIELD_EVENT_TIME = "eventTime";
 	public static final String FIELD_EVENT_TYPE = "eventType";
-	public static final String FIELD_LONGITUDE = "longitude";
-	public static final String FIELD_LATITUDE = "latitude";
 
 	public static final String FIELD_INCIDENT_CNT = "incidentCnt";
 
@@ -32,13 +29,9 @@ public class TempretureScheme implements Scheme {
 			String[] pieces = truckEvent.split("\\|");
 
 			Timestamp eventTime = Timestamp.valueOf(pieces[0]);
-			String truckId = pieces[1];
-			String driverId = pieces[2];
-			String eventType = pieces[3];
-			String longitude = pieces[4];
-			String latitude = pieces[5];
-			return new Values(cleanup(driverId), cleanup(truckId), eventTime,
-					cleanup(eventType), cleanup(longitude), cleanup(latitude));
+			String temperatureId = pieces[1];
+			String eventType = pieces[2];
+			return new Values(cleanup(temperatureId), cleanup(eventType), eventTime);
 		} catch (UnsupportedEncodingException e) {
 			LOG.error(e);
 			throw new RuntimeException(e);
@@ -48,7 +41,7 @@ public class TempretureScheme implements Scheme {
 
 	@Override
 	public Fields getOutputFields() {
-		return new Fields(FIELD_DRIVER_ID, FIELD_TRUCK_ID, FIELD_EVENT_TIME, FIELD_EVENT_TYPE, FIELD_LONGITUDE, FIELD_LATITUDE);
+		return new Fields(FIELD_TEMPERATURE_ID, FIELD_EVENT_TIME, FIELD_EVENT_TYPE);
 	}
 
 	private String cleanup(String str) {

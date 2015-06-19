@@ -33,7 +33,7 @@ public class KafkaTopology extends BaseTopology {
 
 	public void configureKafkaSpout(TopologyBuilder builder) {
 		KafkaSpout kafkaSpout = new KafkaSpout(constructKafkaSpoutConf());
-		int spoutCount = Integer.valueOf(topologyConfig.getProperty("spout.thread.count"));
+		//int spoutCount = Integer.valueOf(topologyConfig.getProperty("spout.thread.count"));
 		builder.setSpout(KAFKA_SPOUT_ID, kafkaSpout);
 	}
 	

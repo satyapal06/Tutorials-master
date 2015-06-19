@@ -29,7 +29,7 @@ public class TempretureScheme implements Scheme {
 			Timestamp eventTime = Timestamp.valueOf(pieces[0]);
 			String temperatureId = pieces[1];
 			String eventType = pieces[2];
-			return new Values(cleanup(temperatureId), cleanup(eventType), eventTime);
+			return new Values(eventTime, cleanup(temperatureId), cleanup(eventType));
 		} catch (UnsupportedEncodingException e) {
 			LOG.error(e);
 			throw new RuntimeException(e);

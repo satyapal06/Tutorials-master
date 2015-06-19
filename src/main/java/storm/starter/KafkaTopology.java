@@ -10,7 +10,9 @@ import backtype.storm.StormSubmitter;
 import backtype.storm.spout.SchemeAsMultiScheme;
 import backtype.storm.topology.TopologyBuilder;
 
-public class KafkaTopology extends BaseTopology {
+import com.hortonworks.tutorials.tutorial2.BaseTruckEventTopology;
+
+public class KafkaTopology extends BaseTruckEventTopology {
 	private static final String KAFKA_SPOUT_ID = "kafkaSpout";
 	private static final String LOG_TRUCK_BOLT_ID = "logTruckEventBolt";
 
